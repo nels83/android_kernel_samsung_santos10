@@ -619,7 +619,8 @@ static int sfi_cpufreq_cpu_init(struct cpufreq_policy *policy)
 		goto err_free;
 
 	perf = data->sfi_data;
-	policy->shared_type = CPUFREQ_SHARED_TYPE_HW;
+	/* maxwen: I want unified scaling and governor behaviour for all CPUs */
+	policy->shared_type = CPUFREQ_SHARED_TYPE_ALL;
 
 	cpumask_set_cpu(policy->cpu, policy->cpus);
 	cpumask_set_cpu(policy->cpu, policy->related_cpus);
