@@ -104,7 +104,7 @@ static struct gpio switches_map_high_gpios[] __initdata = {
 
 static struct gpio_event_direct_entry santos10_keypad_switches_map_low[] = {
 	[GPIO_SW_FLIP] = {
-		.code	= SW_FLIP,
+		.code	= SW_LID,
 	},
 };
 
