@@ -114,7 +114,6 @@ static struct gpio_event_input_info santos10_keypad_siwtches_info_high = {
 	.type			= EV_SW,
 	.keymap			= santos10_keypad_switches_map_low,
 	.keymap_size		= ARRAY_SIZE(santos10_keypad_switches_map_low),
-	.flags			= GPIOEDF_ACTIVE_HIGH,
 	.debounce_time.tv64	= 10 * NSEC_PER_MSEC,
 };
 
