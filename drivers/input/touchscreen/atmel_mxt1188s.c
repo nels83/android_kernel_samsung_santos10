@@ -367,6 +367,7 @@ struct mxt_data {
 	u8 t9_size;
 	u8 t9_amp;
 	u8 t70_touch_event;
+	atomic_t keypad_enable;
 };
 
 #if defined(CONFIG_TOUCHSCREEN_ATMEL_DEBUG)
@@ -1143,6 +1144,10 @@ static void mxt_treat_T15_object(struct mxt_data *data,
 	u8 state;
 	u8 input_message = message->message[MXT_MSG_T15_KEYSTATE];
 	const struct touch_key *touch_key = data->pdata->key;
+
+	// Do nothing if keypad is disabled
+	if (!atomic_read(&data->keypad_enable))
+		return;
 
 	for (i = 0 ; i < data->pdata->key_size ; i++) {
 		state = input_message & touch_key[i].mask;
@@ -3647,6 +3652,49 @@ int get_key_raw_data(struct device *dev, u32 key_offset)
 	return (int)data;
 }
 
+static ssize_t sec_keypad_enable_show(struct device *dev,
+				struct device_attribute *attr, char *buf)
+{
+	struct mxt_data *ts_data = dev_get_drvdata(dev);
+
+	return sprintf(buf, "%d\n", atomic_read(&ts_data->keypad_enable));
+}
+
+static ssize_t sec_keypad_enable_store(struct device *dev,
+					struct device_attribute *attr,
+					const char *buf, size_t count)
+{
+	struct mxt_data *ts_data = dev_get_drvdata(dev);
+	unsigned int val = 0;
+
+	sscanf(buf, "%d", &val);
+	val = (val == 0 ? 0 : 1);
+
+	atomic_set(&ts_data->keypad_enable, val);
+
+	return count;
+}
+
+static DEVICE_ATTR(keypad_enable, S_IRUGO|S_IWUSR, sec_keypad_enable_show,
+	sec_keypad_enable_store);
+
+static int __devinit init_sec_keypad_enable(struct mxt_data *ts_data)
+{
+	struct device *touchkey_dev = ts_data->pdata->key_dev;
+
+	if (!touchkey_dev) {
+		dev_err(&ts_data->client->dev, "Failed to find fac touchkey dev\n");
+		return -1;
+	}
+
+	if (dev_set_drvdata(touchkey_dev, ts_data) < 0)
+		return -1;
+
+	device_create_file(touchkey_dev, &dev_attr_keypad_enable);
+
+	return 0;
+}
+
 static ssize_t touchkey_threshold_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
@@ -3823,12 +3871,19 @@ static int __devinit mxt_probe(struct i2c_client *client,
 	input_dev->open = mxt_input_open;
 	input_dev->close = mxt_input_close;
 
+	atomic_set(&data->keypad_enable, 1);
+
 	if (data->pdata->key_size > 0) {
 		set_bit(EV_KEY, input_dev->evbit);
 		set_bit(EV_LED, input_dev->evbit);
 		set_bit(LED_MISC, input_dev->ledbit);
 		for (i = 0; i < data->pdata->key_size; i++)
 			set_bit(data->pdata->key[i].code, input_dev->keybit);
+
+		error = init_sec_keypad_enable(data);
+		if (unlikely(error)) {
+			dev_err(&client->dev, "Failed to make keypad_enable sysfs\n");
+		}
 	}
 
 	init_completion(&data->init_done);
