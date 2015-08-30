@@ -99,7 +99,7 @@ static u8 gi_er61529_set_page_address[] = {
 };
 static u8 gi_er61529_set_address_mode[] = {0x36, 0x00};
 
-#if DEBUG
+#ifdef DEBUG
 static u8 gi_er61529_set_ddb_write_cntr[] = {
 	0xe1, 0x00, 0x00, 0x00,
 	0x00, 0x00, 0x00

@@ -18,6 +18,7 @@
 #include <linux/lnw_gpio.h>
 #include <linux/i2c/tc35876x-sec.h>
 #include <linux/regulator/consumer.h>
+#include <linux/module.h>
 
 #include <video/cmc624.h>
 #include <video/psb_sec_bl.h>

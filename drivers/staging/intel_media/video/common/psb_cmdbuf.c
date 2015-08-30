@@ -996,7 +996,7 @@ int psb_cmdbuf_ioctl(struct drm_device *dev, void *data,
 		if (pos->filp == file_priv->filp) {
 			int entrypoint = pos->ctx_type & 0xff;
 
-		PSB_DEBUG_GENERAL("cmds for profile %d, entrypoint %d\n",
+		PSB_DEBUG_GENERAL("cmds for profile %llu, entrypoint %llu\n",
 					(pos->ctx_type >> 8) & 0xff,
 					(pos->ctx_type & 0xff));
 

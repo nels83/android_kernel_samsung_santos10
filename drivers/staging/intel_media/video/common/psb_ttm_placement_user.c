@@ -510,24 +510,6 @@ int ttm_pl_ub_create_ioctl(struct ttm_object_file *tfile,
 	placement.num_placement = 1;
 	placement.placement = &flags;
 
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0))
-
-/*  For kernel 3.0, use the desired type. */
-#define TTM_HACK_WORKAROUND_ttm_bo_type_user ttm_bo_type_user
-
-#else
-/*  TTM_HACK_WORKAROUND_ttm_bo_type_user -- Hack for porting,
-    as ttm_bo_type_user is no longer implemented.
-    This will not result in working code.
-    FIXME - to be removed. */
-
-#warning warning: ttm_bo_type_user no longer supported
-
-/*  For kernel 3.3+, use the wrong type, which will compile but not work. */
-#define TTM_HACK_WORKAROUND_ttm_bo_type_user ttm_bo_type_kernel
-
-#endif
-
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(3, 3, 0))
 		/* Handle frame buffer allocated in user space, Convert
 		  user space virtual address into pages list */
@@ -582,7 +564,7 @@ int ttm_pl_ub_create_ioctl(struct ttm_object_file *tfile,
 	ret = ttm_bo_init(bdev,
 			  bo,
 			  req->size,
-			  TTM_HACK_WORKAROUND_ttm_bo_type_user,
+			  ttm_bo_type_user,
 			  &placement,
 			  req->page_alignment,
 			  req->user_address,

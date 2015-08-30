@@ -140,7 +140,7 @@ extern struct platform_driver tmd_lcd_driver;
 #ifdef CONFIG_BOARD_CTP_SAMSUNG
 #define DEFAULT_PANEL_ID	0
 static struct platform_panel_info fw_panel_info[] = {
-	"tc358764", MDFLD_DSI_ENCODER_DPI
+	{"tc358764", MDFLD_DSI_ENCODER_DPI}
 };
 #endif
 

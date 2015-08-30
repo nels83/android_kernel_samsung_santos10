@@ -295,7 +295,7 @@ void ps_hdmi_override_cable_status(bool state, bool auto_state)
 {
 	if (g_context == NULL)
 	{
-		return 0;
+		return;
 	}
 
 	g_context->override_cable_state = auto_state;

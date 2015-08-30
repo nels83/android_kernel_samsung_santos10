@@ -1068,7 +1068,7 @@ loop: /* just for coding style check */
 		/* psb_msvdx_mtx_message_dump(dev); */
 		if (!msvdx_ec_ctx || !(msvdx_ec_ctx->tfile) || found > 1) {
 			PSB_DEBUG_MSVDX(
-			"no matched ctx: fence 0x%x, found %d, ctx 0x%08x\n",
+			"no matched ctx: fence 0x%x, found %d, ctx %p\n",
 				fence, found, msvdx_ec_ctx);
 			goto done;
 		}
@@ -1146,7 +1146,7 @@ loop: /* just for coding style check */
 		if (!msvdx_ec_ctx ||
 		    !(msvdx_ec_ctx->tfile) || found > 1) {
 			PSB_DEBUG_MSVDX(
-		"no matched ctx: fence 0x%x, found %d, ctx 0x%08x\n",
+		"no matched ctx: fence 0x%x, found %d, ctx %p\n",
 				fence, found, msvdx_ec_ctx);
 			PSB_WMSVDX32(0, MSVDX_CMDS_END_SLICE_PICTURE_OFFSET);
 			PSB_WMSVDX32(1, MSVDX_CMDS_END_SLICE_PICTURE_OFFSET);
@@ -1741,7 +1741,7 @@ static void psb_msvdx_fw_error_detected(struct drm_device *dev, uint32_t fence, 
 	/* psb_msvdx_mtx_message_dump(dev); */
 	if (!msvdx_ec_ctx || !(msvdx_ec_ctx->tfile) || found > 1) {
 		PSB_DEBUG_MSVDX(
-		"no matched ctx: fence 0x%x, found %d, ctx 0x%08x\n",
+		"no matched ctx: fence 0x%x, found %d, ctx %p\n",
 			fence, found, msvdx_ec_ctx);
 		return;
 	}

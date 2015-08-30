@@ -58,6 +58,8 @@ ccflags-y += $(include_dirs)
 
 ccflags-y += $(PVRDEFS-y)
 
+ccflags-y += -Wno-declaration-after-statement
+
 $(DRIVER_NAME)-objs += $(FBDEVDIR)/drmlfb_displayclass.o \
 	$(FBDEVDIR)/drmlfb_linux.o \
 	$(MEDIA_COMMON_DIR)/psb_drv.o \

@@ -40,6 +40,10 @@
 #include <linux/module.h>
 #endif
 
+/******************** CMD Register: 0x1000 - 0x1FFF (4kB) ********************/
+#define MSVDX_CMDS_END_SLICE_PICTURE_OFFSET (0x1404)
+/****************************** CMD Register end *****************************/
+
 #define UPLOAD_FW_BY_DMA 1
 #define STACKGUARDWORD          0x10101010
 #define MSVDX_MTX_DATA_LOCATION 0x82880000

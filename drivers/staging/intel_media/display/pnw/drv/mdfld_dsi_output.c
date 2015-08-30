@@ -82,7 +82,7 @@ static int __init parse_LABC_control(char *arg)
 early_param ("LABC", parse_LABC_control);
 #endif
 
-#if DEBUG
+#ifdef DEBUG
 /**
  * make these MCS command global 
  * we don't need 'movl' everytime we send them.

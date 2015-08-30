@@ -1317,7 +1317,7 @@ static PVRSRV_ERROR DestroyDCSwapChain(IMG_HANDLE hDevice,
 	        }
 
 		if (IS_CTP(dev))
-			DRMLFBFlipBuffer2(psDevInfo, NULL, &psDevInfo->sSystemBuffer);
+			DRMLFBFlipBuffer2(psDevInfo, NULL, (struct mdfld_plane_contexts *) &psDevInfo->sSystemBuffer);
 		else
 			DRMLFBFlipBuffer(psDevInfo, NULL, &psDevInfo->sSystemBuffer);
 

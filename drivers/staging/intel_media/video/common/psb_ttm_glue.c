@@ -272,8 +272,8 @@ void psb_remove_videoctx(struct drm_psb_private *dev_priv, struct file *filp)
 	spin_unlock_irqrestore(&dev_priv->video_ctx_lock, irq_flags);
 
 	if (found_ctx) {
-		PSB_DEBUG_PM("Video:remove context profile %d,"
-				  " entrypoint %d\n",
+		PSB_DEBUG_PM("Video:remove context profile %llu,"
+				  " entrypoint %llu\n",
 				  (found_ctx->ctx_type >> 8) & 0xff,
 				  (found_ctx->ctx_type & 0xff));
 #ifndef CONFIG_DRM_VXD_BYT
@@ -463,10 +463,10 @@ int psb_video_getparam(struct drm_device *dev, void *data,
 		}
 #endif
 #endif
-		PSB_DEBUG_INIT("Video:add ctx profile %d, entry %d.\n",
+		PSB_DEBUG_INIT("Video:add ctx profile %llu, entry %llu.\n",
 					((ctx_type >> 8) & 0xff),
 					(ctx_type & 0xff));
-		PSB_DEBUG_INIT("Video:add context protected 0x%x.\n",
+		PSB_DEBUG_INIT("Video:add context protected %llu.\n",
 					(ctx_type & VA_RT_FORMAT_PROTECTED));
 		if (ctx_type & VA_RT_FORMAT_PROTECTED)
 			ied_enabled = 1;
@@ -483,15 +483,15 @@ int psb_video_getparam(struct drm_device *dev, void *data,
 		video_ctx = psb_find_videoctx(dev_priv, file_priv->filp);
 		if (video_ctx) {
 			PSB_DEBUG_GENERAL(
-				"Video: update video ctx old value 0x%08x\n",
+				"Video: update video ctx old value %llu\n",
 				video_ctx->ctx_type);
 			video_ctx->ctx_type = ctx_type;
 			PSB_DEBUG_GENERAL(
-				"Video: update video ctx new value 0x%08x\n",
+				"Video: update video ctx new value %llu\n",
 				video_ctx->ctx_type);
 		} else
 			PSB_DEBUG_GENERAL(
-				"Video:fail to find context profile %d, entrypoint %d",
+				"Video:fail to find context profile %llu, entrypoint %llu",
 				(ctx_type >> 8), (ctx_type & 0xff));
 		break;
 	case IMG_VIDEO_DECODE_STATUS:
@@ -646,7 +646,7 @@ int psb_video_getparam(struct drm_device *dev, void *data,
 	}
 
 	if (ret) {
-		DRM_ERROR("%s: failed to call sub-ioctl 0x%x",
+		DRM_ERROR("%s: failed to call sub-ioctl 0x%llu",
 			__func__, arg->key);
 		return -EFAULT;
 	}
