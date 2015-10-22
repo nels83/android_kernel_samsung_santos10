@@ -113,10 +113,10 @@ struct sec_ts_platform_data {
 };
 
 /* dummy touch key define */
-#define KEY_DUMMY_HOME1		249
-#define KEY_DUMMY_HOME2		250
-#define KEY_DUMMY_MENU		251
-#define KEY_DUMMY_HOME		252
-#define KEY_DUMMY_BACK		253
+#define KEY_DUMMY_HOME1		139
+#define KEY_DUMMY_HOME2		158
+#define KEY_DUMMY_MENU		139
+#define KEY_DUMMY_HOME		158
+#define KEY_DUMMY_BACK		158
 
 #endif
